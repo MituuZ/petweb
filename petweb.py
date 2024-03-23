@@ -92,7 +92,10 @@ def home():
 
 @app.route('/statistics')
 def statistics():
-    return render_template('statistics.html')
+    conn = get_db_con()
+    species = conn.execute('SELECT distinct species FROM pets WHERE active = true').fetchall()
+    species = [item[0] for item in species]
+    return render_template('statistics.html', species=species)
 
 
 if __name__ == '__main__':
