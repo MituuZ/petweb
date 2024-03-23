@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/fi.min.js"
+            integrity="sha512-fhpz3GjO6p/+uSDySjBSLyEEekBPTJikbR8CTb5LpQ/LeTKNcof4o6MNrb1EF2rWTvv+Y+7JsHv8zJYF/6GSug=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stats.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!--    <script src="{{ url_for('static', filename='stats.js') }}"></script>-->
+</head>
+<body>
+<canvas id="graph"></canvas>
+
+<canvas id="graph_2"></canvas>
+
+<a href="/">Return</a>
+</body>
+</html>

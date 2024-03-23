@@ -66,3 +66,25 @@ input[type=submit]:hover {
   background-color: #4CAF50;
   color: white;
 }
+
+a[type=stats] {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  width: 250px;
+  height: 72px;
+  font-size: 2em;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  margin-top: 0.5em
+}
+
+a[type=stats]:hover {
+  background-color: #4CAF50;
+  color: white;
+}
