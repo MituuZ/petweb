@@ -3,3 +3,4 @@
 petweb.db
 .venv
 **/__pycache__/
+config/config.py
