@@ -108,8 +108,6 @@ async function createChart(species, serverData, defaultDatasetOptions, defaultCh
 
     const speciesDatasets = Object.keys(speciesData).map((name, index) => {
         const data = speciesData[name];
-
-        console.log(speciesData);
         color = colors.find(item => item.name === name).color;
         return {
             label: capitalizeFirstLetter(name),
@@ -123,7 +121,17 @@ async function createChart(species, serverData, defaultDatasetOptions, defaultCh
     // Set tick language
     moment.locale("fi");
 
-    // Create a dog chart
+    chartConfig = await fetch('get-chart-configs')
+
+    if (!chartConfig.ok) {
+        console.log(`HTTP error! status: ${chartConfig.status}`);
+        return;
+    }
+
+    chartConfig = await chartConfig.json();
+    let min = chartConfig.find(item => item.species === species).min;
+    let max = chartConfig.find(item => item.species === species).max;
+
     var ctx = document.getElementById('graph' + species).getContext('2d');
     new Chart(ctx, {
         type: 'line',
@@ -136,9 +144,8 @@ async function createChart(species, serverData, defaultDatasetOptions, defaultCh
             scales: {
                 ...defaultChartOptions.scales,
                 y: {
-                    // TODO: Get min and max from table
-                    min: 0,
-                    max: 10
+                    min: min,
+                    max: max
                 }
             }
         },

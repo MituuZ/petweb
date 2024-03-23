@@ -48,6 +48,15 @@ def get_pet_colors():
     return jsonify(items)
 
 
+@app.route('/get-chart-configs', methods=['GET'])
+def get_chart_configs():
+    conn = get_db_con()
+    chart_configs = conn.execute('SELECT * FROM species').fetchall()
+    conn.close()
+    items = [dict(zip(['species', 'min', 'max'], col)) for col in chart_configs]
+    return jsonify(items)
+
+
 @app.route('/get-pet-names', methods=['GET'])
 def get_pet_weights():
     conn = get_db_con()

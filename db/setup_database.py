@@ -19,7 +19,7 @@ def setup_database():
         create_tables()
 
         res = cursor.execute("SELECT name FROM sqlite_master")
-        print(res.fetchone())
+        print(res.fetchall())
 
         setup_test_data()
     except Exception as e:
@@ -49,7 +49,9 @@ def create_tables():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS species (
-        species TEXT NOT NULL
+        species TEXT NOT NULL,
+        min REAL NOT NULL,
+        max REAL NOT NULL
         )
     """)
 
@@ -70,10 +72,21 @@ def insert_into_pets(name, species, color):
     cursor.connection.commit()
     print(res.fetchall())
 
+def insert_into_species(species, min, max):
+    cursor.execute("INSERT INTO species (species, min, max) VALUES (?, ?, ?)",
+                   (species, min, max))
+    res = cursor.execute("SELECT * FROM species")
+    cursor.connection.commit()
+    print(res.fetchall())
+
 
 def setup_test_data():
     cursor.execute("DELETE FROM pet_weights")
     cursor.execute("DELETE FROM pets")
+    cursor.execute("DELETE FROM species")
+
+    insert_into_species('Dog', 2, 10)
+    insert_into_species('Cat', 1, 5)
 
     insert_into_pets("buddy", "Dog", "black")
     insert_into_pets("bobby", "Cat", "yellow")
