@@ -12,6 +12,9 @@ def setup_database():
         conn = sqlite3.connect(Config.DATABASE_PATH + 'petweb.db')
         cursor = conn.cursor()
         create_tables(cursor)
+
+        res = cursor.execute("SELECT name FROM sqlite_master")
+        print(res.fetchone())
     except Exception as e:
         print("Error setting up database: ", e)
 
