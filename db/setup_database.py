@@ -21,7 +21,8 @@ def setup_database():
         res = cursor.execute("SELECT name FROM sqlite_master")
         print(res.fetchall())
 
-        setup_test_data()
+        # setup_real_data()
+        # setup_test_data()
     except Exception as e:
         print("Error setting up database: ", e)
 
@@ -85,12 +86,12 @@ def setup_test_data():
     cursor.execute("DELETE FROM pets")
     cursor.execute("DELETE FROM species")
 
-    insert_into_species('Dog', 2, 10)
-    insert_into_species('Cat', 1, 5)
+    insert_into_species('dog', 2, 10)
+    insert_into_species('cat', 1, 5)
 
-    insert_into_pets("buddy", "Dog", "black")
-    insert_into_pets("bobby", "Cat", "yellow")
-    insert_into_pets("baulie", "Dog", "red")
+    insert_into_pets("buddy", "dog", "black")
+    insert_into_pets("bobby", "cat", "yellow")
+    insert_into_pets("baulie", "dog", "red")
 
     insert_into_pet_weights('buddy', 2.5, '2024-02-10')
     insert_into_pet_weights('bobby', 3, '2024-02-10')
