@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Weight Tracking</title>
+</head>
+
+<body onload="initialize()">
+    <form id="weightForm" onsubmit="submitForm(event)">
+        <div id="inputContainer">
+            <div class="inputRow">
+                <label for="base">Base:</label>
+                <input type="number" id="base" name="base" step="0.1" required>
+            </div>
+            <div class="inputContainer">
+                <div class="inputRow">
+                    <label for="pet1">pet1:</label>
+                    <input type="number" id="pet1" name="pet1" step="0.1" required>
+                </div>
+                <div class="diff" id="pet1Diff">0.0</div>
+            </div>
+            <div class="inputContainer">
+                <div class="inputRow">
+                    <label for="pet2">pet2:</label>
+                    <input type="number" id="pet2" name="pet2" step="0.1" required>
+                </div>
+                <div class="diff" id="pet2Diff">0.0</div>
+            </div>
+            <div class="inputContainer">
+                <div class="inputRow">
+                    <label for="pet3">pet3:</label>
+                    <input type="number" id="pet3" name="pet3" step="0.1" required>
+                </div>
+                <div class="diff" id="pet3Diff">0.0</div>
+            </div>
+            <div class="inputContainer">
+                <div class="inputRow">
+                    <label for="pet4">pet4:</label>
+                    <input type="number" id="pet4" name="pet4" step="0.1" required>
+                </div>
+                <div class="diff" id="pet4Diff">0.0</div>
+            </div>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
