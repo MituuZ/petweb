@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     const defaultChartOptions = {
+        spanGaps: true,
         events: ["click"],
         plugins: {
             tooltip: {
@@ -77,10 +78,6 @@ function createChart(species, serverData, defaultDatasetOptions, defaultChartOpt
         speciesData[item.name].push(item);
     });
 
-    Object.keys(speciesData).forEach(name => {
-        speciesData[name].sort((a, b) => a.date > b.date);
-    });
-
     // 1. Combine all dates
     let allDates = [];
     Object.values(speciesData).forEach(data => {
@@ -96,15 +93,15 @@ function createChart(species, serverData, defaultDatasetOptions, defaultChartOpt
         const filledData = [];
         allDates.forEach(date => {
             const entry = speciesData[name].find(item => item.date === date);
-            filledData.push(entry ? entry : { date: date, weight: null });
+            filledData.push(entry ? entry : { date: date, weight: undefined });
         });
         speciesData[name] = filledData;
     });
 
-    // Generate datasets for dogs name
-    const dogDatasets = Object.keys(speciesData).map((name, index) => {
+    const speciesDatasets = Object.keys(speciesData).map((name, index) => {
         const data = speciesData[name];
         var color = null;
+        // TODO: Get color from table
         if (name == 'dog1') {
             color = `hsl(30, 100%, 40%)`;
         } else {
@@ -128,13 +125,14 @@ function createChart(species, serverData, defaultDatasetOptions, defaultChartOpt
         type: 'line',
         data: {
             labels: allDates,
-            datasets: dogDatasets
+            datasets: speciesDatasets
         },
         options: {
             ...defaultChartOptions,
             scales: {
                 ...defaultChartOptions.scales,
                 y: {
+                    // TODO: Get min and max from table
                     min: 0,
                     max: 10
                 }

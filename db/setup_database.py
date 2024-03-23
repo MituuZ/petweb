@@ -43,12 +43,14 @@ def create_tables():
         active BOOLEAN DEFAULT TRUE,
         color TEXT NOT NULL,
         UNIQUE(name),
-        UNIQUE(species, color))
+        UNIQUE(species, color)
+        )
     """)
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS species (
-        species TEXT NOT NULL,
+        species TEXT NOT NULL
+        )
     """)
 
 
@@ -80,10 +82,23 @@ def setup_test_data():
     insert_into_pet_weights('bobby', 3, '2024-02-10')
     insert_into_pet_weights('baulie', 7, '2024-02-10')
 
-    insert_into_pet_weights('buddy', 2, '2024-03-10')
-    insert_into_pet_weights('bobby', 3.5, '2024-03-10')
-    insert_into_pet_weights('baulie', 9, '2024-03-10')
+    insert_into_pet_weights('buddy', 2, '2024-02-15')
+    insert_into_pet_weights('bobby', 3.5, '2024-02-15')
+    insert_into_pet_weights('baulie', 9, '2024-02-15')
 
-    insert_into_pet_weights('buddy', 4, '2024-03-15')
-    insert_into_pet_weights('bobby', 5, '2024-03-15')
-    insert_into_pet_weights('baulie', 3, '2024-03-15')
+    insert_into_pet_weights('buddy', 4, '2024-03-05')
+    insert_into_pet_weights('bobby', 5, '2024-03-05')
+    insert_into_pet_weights('baulie', 3, '2024-03-05')
+
+    insert_into_pet_weights('buddy', 4, '2024-03-08')
+    insert_into_pet_weights('bobby', 5, '2024-03-08')
+
+    insert_into_pet_weights('buddy', 4, '2024-03-14')
+    insert_into_pet_weights('baulie', 3, '2024-03-14')
+
+    insert_into_pet_weights('bobby', 5, '2024-03-19')
+    insert_into_pet_weights('baulie', 3, '2024-03-19')
+
+    insert_into_pet_weights('buddy', 4, '2024-03-21')
+    insert_into_pet_weights('bobby', 5, '2024-03-21')
+    insert_into_pet_weights('baulie', 3, '2024-03-21')
