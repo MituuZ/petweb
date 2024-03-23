@@ -1,4 +1,5 @@
 import sqlite3
+
 try:
     from config.config import Config
 except ImportError:
@@ -7,4 +8,18 @@ except ImportError:
 
 def setup_database():
     print("Setting up database to: ", Config.DATABASE_PATH)
-    conn = sqlite3.connect(Config.DATABASE_PATH + 'petweb.db')
+    try:
+        conn = sqlite3.connect(Config.DATABASE_PATH + 'petweb.db')
+        cursor = conn.cursor()
+        create_tables(cursor)
+    except Exception as e:
+        print("Error setting up database: ", e)
+
+
+def create_tables(cursor):
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS pet_weights (
+        name TEXT NOT NULL, 
+        weight REAL NOT NULL, 
+        date date DEFAULT CURRENT_DATE)
+    """)
