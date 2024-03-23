@@ -132,7 +132,7 @@ async function createChart(species, serverData, defaultDatasetOptions, defaultCh
     let min = chartConfig.find(item => item.species === species).min;
     let max = chartConfig.find(item => item.species === species).max;
 
-    var ctx = document.getElementById('graph' + species).getContext('2d');
+    var ctx = document.getElementById(species + '_graph').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {

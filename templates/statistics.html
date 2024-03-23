@@ -13,10 +13,9 @@
     <script src="{{ url_for('static', filename='stats.js') }}"></script>
 </head>
 <body>
-<canvas id="graphCat"></canvas>
-
-<canvas id="graphDog"></canvas>
-
+{% for species in species %}
+<canvas id="{{ species }}_graph"></canvas>
+{% endfor %}
 <a href="/">Return</a>
 </body>
 </html>
