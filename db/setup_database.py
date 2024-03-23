@@ -47,8 +47,10 @@ def create_tables():
     """)
 
 
-def insert_into_pet_weights(name, weight):
-    cursor.execute("INSERT INTO pet_weights (name, weight) VALUES (?, ?)", (name, weight))
+def insert_into_pet_weights(name, weight, date):
+    conn = sqlite3.connect(Config.DATABASE_NAME)
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO pet_weights (name, weight, date) VALUES (?, ?, ?)", (name, weight, date))
     res = cursor.execute("SELECT * FROM pet_weights")
     cursor.connection.commit()
     print(res.fetchall())

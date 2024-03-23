@@ -1,6 +1,6 @@
 import sqlite3
 
-from db.setup_database import setup_database
+from db.setup_database import setup_database, insert_into_pet_weights
 from flask import Flask, render_template, jsonify, request
 
 try:
@@ -55,7 +55,7 @@ def insert_weights():
         conn.execute('INSERT INTO pet_weights (name, weight) VALUES (?, ?)',
                      [pet['name'], pet['weight']])
         print(f"Inserted weight {pet['weight']} for {pet['name']}")
-        # conn.commit()
+        conn.commit()
         conn.close()
 
     return jsonify({'status': 'ok'})
@@ -77,4 +77,5 @@ def statistics():
 
 if __name__ == '__main__':
     # setup_database()
+    # insert_into_pet_weights('buddy', 2.5, '2024-02-10')
     app.run(host='0.0.0.0', port=8080)
