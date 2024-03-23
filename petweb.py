@@ -1,7 +1,7 @@
 import sqlite3
 
 from db.setup_database import setup_database
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 
 try:
     from config.config import Config
@@ -35,6 +35,30 @@ def get_pets():
     items = [dict(zip(['name', 'species', 'birth-day'], item)) for item in items]
 
     return jsonify(items)
+
+
+@app.route('/get-pet-names', methods=['GET'])
+def get_pet_weights():
+    conn = get_db_con()
+    pets = conn.execute('SELECT distinct name FROM pets WHERE active = true').fetchall()
+    conn.close()
+
+    pets = [dict(zip(['name'], pet)) for pet in pets]
+
+    return jsonify(pets)
+
+
+@app.route('/insert-weights', methods=['POST'])
+def insert_weights():
+    for pet in request.json:
+        conn = get_db_con()
+        conn.execute('INSERT INTO pet_weights (name, weight) VALUES (?, ?)',
+                     [pet['name'], pet['weight']])
+        print(f"Inserted weight {pet['weight']} for {pet['name']}")
+        # conn.commit()
+        conn.close()
+
+    return jsonify({'status': 'ok'})
 
 
 @app.route('/')

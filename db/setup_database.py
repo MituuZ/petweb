@@ -21,13 +21,9 @@ def setup_database():
         res = cursor.execute("SELECT name FROM sqlite_master")
         print(res.fetchone())
 
-        insert_into_pets("Buddy", "Dog")
-        insert_into_pets("Bobby", "Cat")
-        insert_into_pets("Baulie", "Dog")
-
-        insert_into_pet_weights("Buddy", 10.5)
-        insert_into_pet_weights("Bobby", 11.5)
-        insert_into_pet_weights("Baulie", 12.5)
+        insert_into_pets("buddy", "Dog")
+        insert_into_pets("bobby", "Cat")
+        insert_into_pets("baulie", "Dog")
     except Exception as e:
         print("Error setting up database: ", e)
 
