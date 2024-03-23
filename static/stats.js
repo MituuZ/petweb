@@ -62,7 +62,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function createChart(species, serverData, defaultDatasetOptions, defaultChartOptions) {
+async function createChart(species, serverData, defaultDatasetOptions, defaultChartOptions) {
     console.log('Creating a chart for: ' + species);
     const speciesData = {};
 
@@ -98,15 +98,19 @@ function createChart(species, serverData, defaultDatasetOptions, defaultChartOpt
         speciesData[name] = filledData;
     });
 
+    var color = await fetch('/get-colors');
+    if (!color.ok) {
+        console.log(`HTTP error! status: ${color.status}`);
+        return;
+    }
+
+    colors = await color.json();
+
     const speciesDatasets = Object.keys(speciesData).map((name, index) => {
         const data = speciesData[name];
-        var color = null;
-        // TODO: Get color from table
-        if (name == 'dog1') {
-            color = `hsl(30, 100%, 40%)`;
-        } else {
-            color = `hsl(210, 100%, 20%)`;
-        }
+
+        console.log(speciesData);
+        color = colors.find(item => item.name === name).color;
         return {
             label: capitalizeFirstLetter(name),
             data: data.map(item => item.weight),

@@ -39,6 +39,15 @@ def get_pets():
     return jsonify(items)
 
 
+@app.route('/get-colors', methods=['GET'])
+def get_pet_colors():
+    conn = get_db_con()
+    pet_colors = conn.execute('SELECT color, name FROM pets').fetchall()
+    conn.close()
+    items = [dict(zip(['color', 'name'], col)) for col in pet_colors]
+    return jsonify(items)
+
+
 @app.route('/get-pet-names', methods=['GET'])
 def get_pet_weights():
     conn = get_db_con()

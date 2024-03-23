@@ -63,8 +63,9 @@ def insert_into_pet_weights(name, weight, date):
     print(res.fetchall())
 
 
-def insert_into_pets(name, species):
-    cursor.execute("INSERT INTO pets (name, species) VALUES (?, ?)", (name, species))
+def insert_into_pets(name, species, color):
+    cursor.execute("INSERT INTO pets (name, species, color) VALUES (?, ?, ?)",
+                   (name, species, color))
     res = cursor.execute("SELECT * FROM pets")
     cursor.connection.commit()
     print(res.fetchall())
@@ -74,9 +75,9 @@ def setup_test_data():
     cursor.execute("DELETE FROM pet_weights")
     cursor.execute("DELETE FROM pets")
 
-    insert_into_pets("buddy", "Dog")
-    insert_into_pets("bobby", "Cat")
-    insert_into_pets("baulie", "Dog")
+    insert_into_pets("buddy", "Dog", "black")
+    insert_into_pets("bobby", "Cat", "yellow")
+    insert_into_pets("baulie", "Dog", "red")
 
     insert_into_pet_weights('buddy', 2.5, '2024-02-10')
     insert_into_pet_weights('bobby', 3, '2024-02-10')
