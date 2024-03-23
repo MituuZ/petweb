@@ -39,7 +39,11 @@ def get_pets():
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    conn = get_db_con()
+    pets = conn.execute('SELECT distinct name FROM pets WHERE active = true').fetchall()
+
+    pets = [item[0] for item in pets]
+    return render_template('index.html', pets=pets)
 
 
 @app.route('/statistics')
