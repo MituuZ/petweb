@@ -18,10 +18,12 @@ def get_db_con():
 @app.route('/get-weights', methods=['GET'])
 def get_weights():
     conn = get_db_con()
-    items = conn.execute('SELECT * FROM pet_weights').fetchall()
+    items = conn.execute("""
+        SELECT pw.name, pw.weight, pw.date, p.species FROM pet_weights pw, pets p where pw.name = p.name
+    """).fetchall()
     conn.close()
 
-    items = [dict(zip(['name', 'weight', 'date'], item)) for item in items]
+    items = [dict(zip(['name', 'weight', 'date', 'species'], item)) for item in items]
 
     return jsonify(items)
 
@@ -76,6 +78,5 @@ def statistics():
 
 
 if __name__ == '__main__':
-    # setup_database()
-    # insert_into_pet_weights('buddy', 2.5, '2024-02-10')
+    setup_database()
     app.run(host='0.0.0.0', port=8080)

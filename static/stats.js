@@ -49,51 +49,41 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     const serverData = await response.json();
+    const speciesArray = serverData.map(item => item.species);
+    // Remove duplicates by converting the array to a Set
+    const distinctSpecies = [...new Set(speciesArray)];
+    distinctSpecies.forEach(species => {
+        createChart(species, serverData, defaultDatasetOptions, defaultChartOptions);
+    });
+});
 
-    // Group the server data by name and sort by date
-    const groupedData = {};
-    const catData = {};
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function createChart(species, serverData, defaultDatasetOptions, defaultChartOptions) {
+    console.log('Creating a chart for: ' + species);
+    const speciesData = {};
 
     serverData.forEach(item => {
-        if (item.name.toLowerCase() !== 'base') {
-            if (item.name.toLowerCase() !== 'dog1' && item.name.toLowerCase() !== 'dog2') {
-                if (!catData[item.name]) {
-                    catData[item.name] = [];
-                }
-                catData[item.name].push(item);
-            } else {
-                if (!groupedData[item.name]) {
-                    groupedData[item.name] = [];
-                }
-                groupedData[item.name].push(item);
-            }
+        // Fast exit
+        if (item.species !== species) {
+            return;
         }
+
+        if (!speciesData[item.name]) {
+            speciesData[item.name] = [];
+        }
+        speciesData[item.name].push(item);
     });
 
-    Object.keys(groupedData).forEach(name => {
-        groupedData[name].sort((a, b) => a.date > b.date);
-    });
-
-    Object.keys(catData).forEach(name => {
-        catData[name].sort((a, b) => a.date > b.date);
-    });
-
-    // Generate datasets for the cats
-    const catDataset = Object.keys(catData).map((name, index) => {
-        const data = catData[name];
-        const color = `hsl(${index * 360 / Object.keys(catData).length}, 100%, 50%)`;
-        return {
-            label: capitalizeFirstLetter(name),
-            data: data.map(item => item.weight),
-            borderColor: color,
-            backgroundColor: color,
-            ...defaultDatasetOptions
-        };
+    Object.keys(speciesData).forEach(name => {
+        speciesData[name].sort((a, b) => a.date > b.date);
     });
 
     // 1. Combine all dates
     let allDates = [];
-    Object.values(groupedData).forEach(data => {
+    Object.values(speciesData).forEach(data => {
         const dates = data.map(item => item.date);
         allDates = allDates.concat(dates);
     });
@@ -102,18 +92,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     allDates = [...new Set(allDates)].sort();
 
     // 3. Fill in missing data
-    Object.keys(groupedData).forEach(name => {
+    Object.keys(speciesData).forEach(name => {
         const filledData = [];
         allDates.forEach(date => {
-            const entry = groupedData[name].find(item => item.date === date);
+            const entry = speciesData[name].find(item => item.date === date);
             filledData.push(entry ? entry : { date: date, weight: null });
         });
-        groupedData[name] = filledData;
+        speciesData[name] = filledData;
     });
 
     // Generate datasets for dogs name
-    const dogDatasets = Object.keys(groupedData).map((name, index) => {
-        const data = groupedData[name];
+    const dogDatasets = Object.keys(speciesData).map((name, index) => {
+        const data = speciesData[name];
         var color = null;
         if (name == 'dog1') {
             color = `hsl(30, 100%, 40%)`;
@@ -133,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     moment.locale("fi");
 
     // Create a dog chart
-    var ctx = document.getElementById('graph').getContext('2d');
+    var ctx = document.getElementById('graph' + species).getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -146,33 +136,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 ...defaultChartOptions.scales,
                 y: {
                     min: 0,
-                    max: 34
+                    max: 10
                 }
             }
         },
     });
-
-    // Create a cat chart
-    var ctx2 = document.getElementById('graph_2').getContext('2d');
-    new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: catData[Object.keys(catData)[0]].map(item => item.date),
-            datasets: catDataset
-        },
-        options: {
-            ...defaultChartOptions,
-            scales: {
-                ...defaultChartOptions.scales,
-                y: {
-                    min: 0,
-                    max: 4.8
-                }
-            },
-        }
-    });
-});
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
