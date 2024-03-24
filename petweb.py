@@ -68,6 +68,16 @@ def get_pet_weights():
     return jsonify(pets)
 
 
+@app.route('/get-graph-range', methods=['GET'])
+def get_graph_range():
+    conn = get_db_con()
+    graph_range = conn.execute('SELECT value FROM configs where name = \'graph_range\'').fetchone()
+    if graph_range is None:
+        graph_range = ['3']
+    conn.close()
+    return jsonify({'range': graph_range[0]})
+
+
 @app.route('/insert-weights', methods=['POST'])
 def insert_weights():
     for pet in request.json:

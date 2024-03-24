@@ -6,6 +6,44 @@ document.addEventListener('DOMContentLoaded', async function() {
         pointRadius: 13
     }
 
+    let graphRange = await fetch('/get-graph-range')
+
+    if (!graphRange.ok) {
+        console.log(`HTTP error! status: ${graphRange.status}`);
+        return;
+    }
+
+    graphRange = await graphRange.json();
+    graphRange = graphRange.range;
+
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    let endYear = currentYear;
+    rollsOver = currentMonth === 11;
+    endYear += rollsOver ? 1 : 0;
+    let endMonth = rollsOver ? 0 : currentMonth + 2; // Account for zero indexed months
+    endMonth = String(endMonth).padStart(2, '0');
+    const endDate = endYear + '-' + endMonth + '-01'; // The first day of the next month
+
+    let startYear = currentYear;
+    let startMonth = currentMonth - graphRange + 1;
+
+    if (startMonth < 0) {
+        const fullYears = Math.ceil(Math.abs(startMonth) / 12);
+        startYear -= fullYears;
+        startMonth = 12 + (startMonth % 12);
+    }
+    if (startMonth === 0) {
+        startMonth = 12;
+        startYear -= 1;
+    }
+    startMonth = String(startMonth).padStart(2, '0');
+    const startDate = startYear + '-' + startMonth + '-01'; // The first day of the month graphRange months ago
+
+    console.log('Start date: ' + startDate + ' End date: ' + endDate);
+
     const defaultChartOptions = {
         spanGaps: true,
         events: ["click"],
@@ -31,8 +69,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     unit: 'month',
                 },
                 parser: 'YYYY-MM-DD',
-                min: '2023-08-01',
-                max: '2024-03-31'
+                min: startDate,
+                max: endDate
             },
         }
     }
