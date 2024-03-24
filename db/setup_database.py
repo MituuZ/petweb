@@ -29,7 +29,7 @@ def setup_database():
 
 def create_tables():
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS pet_weights (
+    CREATE TABLE IF NOT EXISTS weights (
         name TEXT NOT NULL, 
         weight REAL NOT NULL, 
         date date DEFAULT CURRENT_DATE,
@@ -57,11 +57,9 @@ def create_tables():
     """)
 
 
-def insert_into_pet_weights(name, weight, date):
-    conn = sqlite3.connect(Config.DATABASE_NAME)
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO pet_weights (name, weight, date) VALUES (?, ?, ?)", (name, weight, date))
-    res = cursor.execute("SELECT * FROM pet_weights")
+def insert_into_weights(name, weight, date):
+    cursor.execute("INSERT INTO weights (name, weight, date) VALUES (?, ?, ?)", (name, weight, date))
+    res = cursor.execute("SELECT * FROM weights")
     cursor.connection.commit()
     print(res.fetchall())
 
@@ -73,6 +71,7 @@ def insert_into_pets(name, species, color):
     cursor.connection.commit()
     print(res.fetchall())
 
+
 def insert_into_species(species, min, max):
     cursor.execute("INSERT INTO species (species, min, max) VALUES (?, ?, ?)",
                    (species, min, max))
@@ -82,7 +81,7 @@ def insert_into_species(species, min, max):
 
 
 def setup_test_data():
-    cursor.execute("DELETE FROM pet_weights")
+    cursor.execute("DELETE FROM weights")
     cursor.execute("DELETE FROM pets")
     cursor.execute("DELETE FROM species")
 
@@ -93,27 +92,27 @@ def setup_test_data():
     insert_into_pets("bobby", "cat", "yellow")
     insert_into_pets("baulie", "dog", "red")
 
-    insert_into_pet_weights('buddy', 2.5, '2024-02-10')
-    insert_into_pet_weights('bobby', 3, '2024-02-10')
-    insert_into_pet_weights('baulie', 7, '2024-02-10')
+    insert_into_weights('buddy', 2.5, '2024-02-10')
+    insert_into_weights('bobby', 3, '2024-02-10')
+    insert_into_weights('baulie', 7, '2024-02-10')
 
-    insert_into_pet_weights('buddy', 2, '2024-02-15')
-    insert_into_pet_weights('bobby', 3.5, '2024-02-15')
-    insert_into_pet_weights('baulie', 9, '2024-02-15')
+    insert_into_weights('buddy', 2, '2024-02-15')
+    insert_into_weights('bobby', 3.5, '2024-02-15')
+    insert_into_weights('baulie', 9, '2024-02-15')
 
-    insert_into_pet_weights('buddy', 4, '2024-03-05')
-    insert_into_pet_weights('bobby', 5, '2024-03-05')
-    insert_into_pet_weights('baulie', 3, '2024-03-05')
+    insert_into_weights('buddy', 4, '2024-03-05')
+    insert_into_weights('bobby', 5, '2024-03-05')
+    insert_into_weights('baulie', 3, '2024-03-05')
 
-    insert_into_pet_weights('buddy', 4, '2024-03-08')
-    insert_into_pet_weights('bobby', 5, '2024-03-08')
+    insert_into_weights('buddy', 4, '2024-03-08')
+    insert_into_weights('bobby', 5, '2024-03-08')
 
-    insert_into_pet_weights('buddy', 4, '2024-03-14')
-    insert_into_pet_weights('baulie', 3, '2024-03-14')
+    insert_into_weights('buddy', 4, '2024-03-14')
+    insert_into_weights('baulie', 3, '2024-03-14')
 
-    insert_into_pet_weights('bobby', 5, '2024-03-19')
-    insert_into_pet_weights('baulie', 3, '2024-03-19')
+    insert_into_weights('bobby', 5, '2024-03-19')
+    insert_into_weights('baulie', 3, '2024-03-19')
 
-    insert_into_pet_weights('buddy', 4, '2024-03-21')
-    insert_into_pet_weights('bobby', 5, '2024-03-21')
-    insert_into_pet_weights('baulie', 3, '2024-03-21')
+    insert_into_weights('buddy', 4, '2024-03-21')
+    insert_into_weights('bobby', 5, '2024-03-21')
+    insert_into_weights('baulie', 3, '2024-03-21')

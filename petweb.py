@@ -1,6 +1,6 @@
 import sqlite3
 
-from db.setup_database import setup_database, insert_into_pet_weights
+from db.setup_database import setup_database
 from flask import Flask, render_template, jsonify, request
 
 try:
@@ -19,7 +19,7 @@ def get_db_con():
 def get_weights():
     conn = get_db_con()
     items = conn.execute("""
-        SELECT pw.name, pw.weight, pw.date, p.species FROM pet_weights pw, pets p where pw.name = p.name
+        SELECT pw.name, pw.weight, pw.date, p.species FROM weights pw, pets p where pw.name = p.name
     """).fetchall()
     conn.close()
 
@@ -72,7 +72,7 @@ def get_pet_weights():
 def insert_weights():
     for pet in request.json:
         conn = get_db_con()
-        conn.execute('INSERT INTO pet_weights (name, weight) VALUES (?, ?)',
+        conn.execute('INSERT INTO weights (name, weight) VALUES (?, ?)',
                      [pet['name'], pet['weight']])
         print(f"Inserted weight {pet['weight']} for {pet['name']}")
         conn.commit()
