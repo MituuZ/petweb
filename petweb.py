@@ -85,10 +85,12 @@ def insert_weights():
 def home():
     conn = get_db_con()
     pets = conn.execute('SELECT distinct name FROM pets WHERE active = true').fetchall()
-    base = conn.execute('SELECT value FROM configs WHERE name = \'base_name\'').fetchone()[0]
+    base = conn.execute('SELECT value FROM configs WHERE name = \'base_name\'').fetchone()
 
     if base is None:
         base = 'base'
+    else:
+        base = base[0]
 
     pets = [item[0] for item in pets]
     return render_template('index.html', pets=pets, base=base)
