@@ -56,6 +56,14 @@ def create_tables():
         )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS configs (
+        name TEXT NOT NULL,
+        value TEXT NOT NULL,
+        UNIQUE(name)
+        )
+    """)
+
 
 def insert_into_weights(name, weight, date):
     cursor.execute("INSERT INTO weights (name, weight, date) VALUES (?, ?, ?)", (name, weight, date))
