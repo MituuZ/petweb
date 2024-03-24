@@ -14,8 +14,8 @@
 <form id="weightForm" onsubmit="submitForm(event)">
     <div id="inputContainer">
         <div class="inputRow">
-            <label for="base">Base:</label>
-            <input type="number" id="base" name="base" step="0.1" required>
+            <label for="base">{{ base | capitalize }}:</label>
+            <input type="number" id="base" name="{{ base }}" step="0.1" required>
         </div>
         {% for pet in pets %}
         <div class="inputContainer">

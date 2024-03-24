@@ -21,10 +21,12 @@ function calculateDiff(baseInput, petInput) {
 async function submitForm(event) {
     event.preventDefault();
     let date = new Date().toISOString();
-    let baseWeight = document.getElementById('base').value;
+    let base = document.getElementById('base');
+    let baseWeight = base.value;
+    let name = base.name;
     let data = [];
     let baseData = {
-        "name": "base",
+        "name": name,
         "weight": parseFloat(baseWeight.trim())
     }
     data.push(baseData);
