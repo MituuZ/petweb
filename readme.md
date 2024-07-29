@@ -4,6 +4,8 @@ A python project that uses SQLite and Flask to create a simple web application t
 
 With a little modification this could be used to track any type of data that can be stored in a database.
 
+A proper readme is on my todo list, for now you can reference the [article](https://mituuz.com/content/petweb-python-migration.html).
+
 # Flask
 
 Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications.
