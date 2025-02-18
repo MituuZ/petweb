@@ -1,10 +1,62 @@
 # Petweb
 
-A python project that uses SQLite and Flask to create a simple web application that allows users to track pet weights.
+A Python web application built with Flask and SQLite that allows users to track pet weights over time. The application can be easily modified to track any type of time-series data.
 
-With a little modification this could be used to track any type of data that can be stored in a database.
+## Features
 
-A proper readme is on my todo list, for now you can reference the [article](https://mituuz.com/content/petweb-python-migration.html).
+- Track multiple pets and their weights
+- Support for different species with weight range validation
+- Simple SQLite database for easy deployment
+- Configurable database location
+
+## Project Structure
+
+```
+petweb/
+├── config/
+│   ├── config.py        # Your configuration file (create from config_example.py)
+│   └── config_example.py # Example configuration template
+├── db/
+│   └── setup_database.py # Database initialization and test data
+└── petweb.db            # SQLite database (created on first run)
+```
+
+## Database Schema
+
+The application uses the following database tables:
+
+### weights
+- `name` (TEXT): Pet name
+- `weight` (REAL): Weight measurement
+- `date` (DATE): Measurement date
+- Unique constraint on (name, date)
+
+### pets
+- `name` (TEXT): Pet name
+- `species` (TEXT): Type of pet
+- `birth_day` (DATE): Pet's birth date
+- `active` (BOOLEAN): Whether pet is active
+- `color` (TEXT): Pet's color
+- Unique constraints on name and (species, color)
+
+### species
+- `species` (TEXT): Species name
+- `min` (REAL): Minimum healthy weight
+- `max` (REAL): Maximum healthy weight
+
+### configs
+- `name` (TEXT): Configuration name
+- `value` (TEXT): Configuration value
+- Unique constraint on name
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+### Dependencies
+
+- Flask: [BSD-3-Clause License](https://palletsprojects.com/p/flask/)
+- SQLite: [Public Domain](https://www.sqlite.org/copyright.html)
 
 # Flask
 
